@@ -1,24 +1,6 @@
 import string
-from enum import IntEnum
 from dataclasses import dataclass
 from typing import Optional
-
-
-class Condition(IntEnum):
-    FACTORY_NEW = 0
-    MINIMAL_WEAR = 1
-    FIELD_TESTED = 2
-    WELL_WORN = 3
-    BATTLE_SCARRED = 4
-
-    def __str__(self):
-        return [
-            "Factory New",
-            "Minimal Wear",
-            "Field-Tested",
-            "Well-Worn",
-            "Battle-Scarred",
-        ][self.value]
 
 
 @dataclass
