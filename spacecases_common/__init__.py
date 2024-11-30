@@ -21,53 +21,12 @@ class Condition(IntEnum):
         ][self.value]
 
 
-CONSUMER_GRADE_COLOUR = 0xB0C3D9
-INDUSTRIAL_GRADE_COLOUR = 0x5E98D9
-MIL_SPEC_COLOUR = 0x4B69FF
-RESTRICTED_COLOUR = 0x8847FF
-CLASSIFIED_COLOUR = 0xD32CE6
-COVERT_COLOUR = 0xEB4B4B
-CONTRABAND_COLOUR = 0xE4AE39
-
-
-class Grade(IntEnum):
-    CONSUMER_GRADE = 0
-    INDUSTRIAL_GRADE = 1
-    MIL_SPEC = 2
-    RESTRICTED = 3
-    CLASSIFIED = 4
-    COVERT = 5
-    CONTRABAND = 6
-
-    def __str__(self):
-        return [
-            "Consumer Grade",
-            "Industrial Grade",
-            "Mil-Spec",
-            "Restricted",
-            "Classified",
-            "Covert",
-            "Contraband",
-        ][self.value]
-
-    def get_color(self):
-        return [
-            CONSUMER_GRADE_COLOUR,
-            INDUSTRIAL_GRADE_COLOUR,
-            MIL_SPEC_COLOUR,
-            RESTRICTED_COLOUR,
-            CLASSIFIED_COLOUR,
-            COVERT_COLOUR,
-            CONTRABAND_COLOUR,
-        ][self.value]
-
-
 @dataclass
 class Skin:
     formatted_name: str
     description: Optional[str]
     image_url: str
-    grade: Grade
+    grade: str
     min_float: float
     max_float: float
     price: int
