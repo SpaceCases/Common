@@ -25,6 +25,7 @@ setup(
     long_description=long_description,
     license="GPL-3 license",
     packages=find_packages(),
+    package_data={"spacecases_common": ["py.typed"]},
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
