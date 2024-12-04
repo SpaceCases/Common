@@ -9,7 +9,7 @@ __all__ = [
     "Rarity",
     "ItemMetadatum",
     "SkinMetadatum",
-    "RegularItemMetadatum",
+    "StickerMetadatum",
     "Container",
     "remove_skin_name_formatting",
 ]
@@ -86,8 +86,8 @@ class SkinMetadatum(ItemMetadatum):
 
 
 @dataclass
-class RegularItemMetadatum(ItemMetadatum):
-    """A RegularItemMetadatum is just an item metadatum for all items apart from skins. Regular items don't have descriptions or floats."""
+class StickerItemMetadatum(ItemMetadatum):
+    """A sticker is just a default item"""
 
     def get_rarity_string(self) -> str:
         return self.rarity.get_name_for_regular_item()
