@@ -86,7 +86,7 @@ class SkinMetadatum(ItemMetadatum):
 
 
 @dataclass
-class StickerItemMetadatum(ItemMetadatum):
+class StickerMetadatum(ItemMetadatum):
     """A sticker is just a default item"""
 
     def get_rarity_string(self) -> str:

@@ -1,10 +1,10 @@
 import unittest
-from spacecases_common import SkinMetadatum, StickerItemMetadatum, Rarity
+from spacecases_common import SkinMetadatum, StickerMetadatum, Rarity
 
 
 class TestItemMetadatum(unittest.TestCase):
-    def test_sticker_item_metadatum_get_name_string(self):
-        item_metadatum = StickerItemMetadatum(
+    def test_sticker_metadatum_get_name_string(self):
+        item_metadatum = StickerMetadatum(
             "Sticker | Crown Foil",
             Rarity.Legendary,
             4636400,
