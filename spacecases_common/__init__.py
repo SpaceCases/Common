@@ -3,13 +3,16 @@ import string
 from dataclasses import dataclass
 from typing import Optional
 from enum import IntEnum
-from abc import ABC, abstractmethod
 
 __all__ = [
     "Rarity",
-    "ItemMetadatum",
     "SkinMetadatum",
     "StickerMetadatum",
+    "ItemMetadatum",
+    "SkinContainerEntry",
+    "StickerContainerEntry",
+    "ContainerEntry",
+    "ContainerType",
     "Container",
     "remove_skin_name_formatting",
 ]
@@ -54,51 +57,57 @@ class Rarity(IntEnum):
 
 
 @dataclass
-class ItemMetadatum(ABC):
-    """
-    Base class for different types of ItemMetadatum. Every single item contains atleast these fields and implements these methods.
-    """
+class SkinMetadatum:
+    formatted_name: str
+    rarity: Rarity
+    price: int
+    image_url: str
+    description: Optional[str]
+    min_float: float
+    max_float: float
 
+
+@dataclass
+class StickerMetadatum:
     formatted_name: str
     rarity: Rarity
     price: int
     image_url: str
 
-    @abstractmethod
-    def get_rarity_string(self) -> str:
-        """
-        Obtain the corresponding rarity string on the type of the item
-        """
+
+type ItemMetadatum = SkinMetadatum | StickerMetadatum
 
 
 @dataclass
-class SkinMetadatum(ItemMetadatum):
-    """
-    An ItemMetadatum that also includes an optional description and a float range.
-    """
-
-    description: Optional[str]
+class SkinContainerEntry:
+    unformatted_name: str
     min_float: float
     max_float: float
 
-    def get_rarity_string(self) -> str:
-        return self.rarity.get_name_for_skin()
-
 
 @dataclass
-class StickerMetadatum(ItemMetadatum):
-    """A sticker is just a default item"""
+class StickerContainerEntry:
+    unformatted_name: str
 
-    def get_rarity_string(self) -> str:
-        return self.rarity.get_name_for_regular_item()
+
+type ContainerEntry = SkinContainerEntry | StickerContainerEntry
+
+
+class ContainerType(IntEnum):
+    CASE = 0
+    SOUVENIR_PACKAGE = 1
+    STICKER_CAPSULE = 2
 
 
 @dataclass
 class Container:
     formatted_name: str
-    image_url: str
+    type: ContainerType
     price: int
-    contains: dict[Rarity, list[str]]
+    image_url: str
+    requires_key: bool
+    contains: dict[Rarity, list[ContainerEntry]]
+    contains_rare: list[ContainerEntry]
 
 
 _SPECIAL_CHARS_REGEX = re.compile(r"[™★♥\s]")
