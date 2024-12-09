@@ -81,11 +81,17 @@ class StickerMetadatum:
 type ItemMetadatum = SkinMetadatum | StickerMetadatum
 
 
+class SkinVariant(IntEnum):
+    DOPPLER = 0
+    GAMMA_DOPPLER = 1
+
+
 @dataclass
 class SkinContainerEntry:
     unformatted_name: str
     min_float: float
     max_float: float
+    variant: Optional[SkinVariant]
 
 
 @dataclass
