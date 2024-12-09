@@ -10,9 +10,12 @@ __all__ = [
     "StickerMetadatum",
     "ItemMetadatum",
     "SkinContainerEntry",
-    "StickerContainerEntry",
+    "ItemContainerEntry",
     "ContainerEntry",
-    "ContainerType",
+    "GenericContainer",
+    "SkinCase",
+    "SouvenirPackage",
+    "StickerCapsule",
     "Container",
     "remove_skin_name_formatting",
 ]
@@ -86,29 +89,39 @@ class SkinContainerEntry:
 
 
 @dataclass
-class StickerContainerEntry:
+class ItemContainerEntry:
     unformatted_name: str
 
 
-type ContainerEntry = SkinContainerEntry | StickerContainerEntry
-
-
-class ContainerType(IntEnum):
-    CASE = 0
-    SOUVENIR_PACKAGE = 1
-    STICKER_CAPSULE = 2
+type ContainerEntry = SkinContainerEntry | ItemContainerEntry
 
 
 @dataclass
-class Container:
+class GenericContainer[T: ContainerEntry]:
     formatted_name: str
-    type: ContainerType
     price: int
     image_url: str
     requires_key: bool
-    contains: dict[Rarity, list[ContainerEntry]]
-    contains_rare: list[ContainerEntry]
+    contains: dict[Rarity, list[T]]
+    contains_rare: list[T]
 
+
+@dataclass
+class SkinCase(GenericContainer[SkinContainerEntry]):
+    pass
+
+
+@dataclass
+class SouvenirPackage(GenericContainer[SkinContainerEntry]):
+    pass
+
+
+@dataclass
+class StickerCapsule(GenericContainer[ItemContainerEntry]):
+    pass
+
+
+type Container = SkinCase | SouvenirPackage | StickerCapsule
 
 _SPECIAL_CHARS_REGEX = re.compile(r"[™★♥\s]")
 
