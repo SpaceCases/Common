@@ -82,9 +82,23 @@ class StickerMetadatum:
 type ItemMetadatum = SkinMetadatum | StickerMetadatum
 
 
-class SkinVariant(IntEnum):
+class PhaseGroup(IntEnum):
     DOPPLER = 0
     GAMMA_DOPPLER = 1
+
+    def get_phases(self) -> list[str]:
+        return [
+            [
+                "Phase 1",
+                "Phase 2",
+                "Phase 3",
+                "Phase 4",
+                "Sapphire",
+                "Ruby",
+                "Black Pearl",
+            ],
+            ["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Emerald"],
+        ][self.value]
 
 
 @dataclass
@@ -92,7 +106,7 @@ class SkinContainerEntry:
     unformatted_name: str
     min_float: float
     max_float: float
-    variant: Optional[SkinVariant]
+    phase_group: Optional[IntEnum]
 
 
 @dataclass
