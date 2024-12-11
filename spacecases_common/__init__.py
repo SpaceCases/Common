@@ -107,11 +107,13 @@ class SkinContainerEntry:
     min_float: float
     max_float: float
     phase_group: Optional[IntEnum]
+    image_url: str
 
 
 @dataclass
 class ItemContainerEntry:
     unformatted_name: str
+    image_url: str
 
 
 type ContainerEntry = SkinContainerEntry | ItemContainerEntry
