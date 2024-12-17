@@ -17,7 +17,7 @@ __all__ = [
     "SouvenirPackage",
     "StickerCapsule",
     "Container",
-    "SkinVariant",
+    "PhaseGroup",
     "remove_skin_name_formatting",
 ]
 
