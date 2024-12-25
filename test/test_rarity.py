@@ -3,7 +3,7 @@ from spacecases_common import Rarity
 
 
 class TestRarity(unittest.TestCase):
-    def test_get_name_for_regular_item(self):
+    def test_get_name_for_regular_item(self) -> None:
         for input, expected in [
             (Rarity.Common, "Base Grade"),
             (Rarity.Uncommon, "Industrial Grade"),
@@ -15,7 +15,7 @@ class TestRarity(unittest.TestCase):
         ]:
             self.assertEqual(input.get_name_for_regular_item(), expected)
 
-    def test_get_name_for_skin(self):
+    def test_get_name_for_skin(self) -> None:
         for input, expected in [
             (Rarity.Common, "Consumer Grade"),
             (Rarity.Uncommon, "Industrial Grade"),
