@@ -103,7 +103,7 @@ class SkinContainerEntry(BaseModel):
     unformatted_name: str
     min_float: float
     max_float: float
-    phase_group: Optional[IntEnum]
+    phase_group: Optional[PhaseGroup]
     image_url: str
 
 
