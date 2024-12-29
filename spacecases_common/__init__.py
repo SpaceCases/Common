@@ -1,6 +1,6 @@
 import re
 import string
-from dataclasses import dataclass
+from pydantic import BaseModel
 from typing import Optional
 from enum import IntEnum
 
@@ -60,8 +60,7 @@ class Rarity(IntEnum):
         ][self.value]
 
 
-@dataclass
-class SkinMetadatum:
+class SkinMetadatum(BaseModel):
     formatted_name: str
     rarity: Rarity
     price: int
@@ -71,8 +70,7 @@ class SkinMetadatum:
     max_float: float
 
 
-@dataclass
-class StickerMetadatum:
+class StickerMetadatum(BaseModel):
     formatted_name: str
     rarity: Rarity
     price: int
@@ -101,8 +99,7 @@ class PhaseGroup(IntEnum):
         ][self.value]
 
 
-@dataclass
-class SkinContainerEntry:
+class SkinContainerEntry(BaseModel):
     unformatted_name: str
     min_float: float
     max_float: float
@@ -110,8 +107,7 @@ class SkinContainerEntry:
     image_url: str
 
 
-@dataclass
-class ItemContainerEntry:
+class ItemContainerEntry(BaseModel):
     unformatted_name: str
     image_url: str
 
@@ -119,8 +115,7 @@ class ItemContainerEntry:
 type ContainerEntry = SkinContainerEntry | ItemContainerEntry
 
 
-@dataclass
-class GenericContainer[T: ContainerEntry]:
+class GenericContainer[T: ContainerEntry](BaseModel):
     formatted_name: str
     price: int
     image_url: str
@@ -129,17 +124,14 @@ class GenericContainer[T: ContainerEntry]:
     contains_rare: list[T]
 
 
-@dataclass
 class SkinCase(GenericContainer[SkinContainerEntry]):
     pass
 
 
-@dataclass
 class SouvenirPackage(GenericContainer[SkinContainerEntry]):
     pass
 
 
-@dataclass
 class StickerCapsule(GenericContainer[ItemContainerEntry]):
     pass
 
