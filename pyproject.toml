@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spacecases-common"
-version = "0.10.1"
+version = "0.11.0"
 description = "Common code shared across SpaceCases projects"
 readme = "README.md"
 license = { text = "GPL-3 license" }
@@ -14,6 +14,7 @@ authors = [
 dependencies = [
     "ruff == 0.8.4",
     "mypy == 1.14.0",
+    "discord.py == 2.4.0",
     "pydantic == 2.10.4"
 ]
 classifiers = [

@@ -1,5 +1,7 @@
 import re
 import string
+import discord
+from dataclasses import dataclass
 from pydantic import BaseModel
 from typing import Optional
 from enum import IntEnum
@@ -19,6 +21,8 @@ __all__ = [
     "Container",
     "PhaseGroup",
     "remove_skin_name_formatting",
+    "SkinOwnership",
+    "StickerOwnership",
 ]
 
 
@@ -149,3 +153,17 @@ def remove_skin_name_formatting(skin_name: str) -> str:
     """
     skin_name = _SPECIAL_CHARS_REGEX.sub("", skin_name.lower())
     return skin_name.translate(str.maketrans("", "", string.punctuation))
+
+
+@dataclass
+class SkinOwnership:
+    owner: discord.User | discord.Member
+    metadatum: SkinMetadatum
+    floats: list[float]
+
+
+@dataclass
+class StickerOwnership:
+    owner: discord.User | discord.Member
+    metadatum: StickerMetadatum
+    count: int
