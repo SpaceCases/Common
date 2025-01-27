@@ -1,6 +1,7 @@
 import re
 import string
 import discord
+from enum import Enum
 from dataclasses import dataclass
 from pydantic import BaseModel
 from typing import Optional
@@ -23,6 +24,7 @@ __all__ = [
     "remove_skin_name_formatting",
     "SkinOwnership",
     "StickerOwnership",
+    "ItemType",
 ]
 
 
@@ -153,6 +155,11 @@ def remove_skin_name_formatting(skin_name: str) -> str:
     """
     skin_name = _SPECIAL_CHARS_REGEX.sub("", skin_name.lower())
     return skin_name.translate(str.maketrans("", "", string.punctuation))
+
+
+class ItemType(Enum):
+    Skin = "skin"
+    Sticker = "sticker"
 
 
 @dataclass
