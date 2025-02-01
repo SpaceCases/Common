@@ -1,4 +1,6 @@
 import re
+import os
+import aiohttp
 import string
 import discord
 from enum import Enum
@@ -6,26 +8,6 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 from typing import Optional
 from enum import IntEnum
-
-__all__ = [
-    "Rarity",
-    "SkinMetadatum",
-    "StickerMetadatum",
-    "ItemMetadatum",
-    "SkinContainerEntry",
-    "ItemContainerEntry",
-    "ContainerEntry",
-    "GenericContainer",
-    "SkinCase",
-    "SouvenirPackage",
-    "StickerCapsule",
-    "Container",
-    "PhaseGroup",
-    "remove_skin_name_formatting",
-    "SkinOwnership",
-    "StickerOwnership",
-    "ItemType",
-]
 
 
 class Rarity(IntEnum):
@@ -174,3 +156,59 @@ class StickerOwnership:
     owner: discord.User | discord.Member
     metadatum: StickerMetadatum
     count: int
+
+
+SKIN_METADATA_PATH = os.path.join("generated", "skin_metadata.json")
+STICKER_METADATA_PATH = os.path.join("generated", "sticker_metadata.json")
+SKIN_CASES_METADATA_PATH = os.path.join("generated", "skin_cases.json")
+STICKER_CAPSULE_METADATA_PATH = os.path.join("generated", "sticker_capsules.json")
+SOUVENIR_PACKAGE_METADATA_PATH = os.path.join("generated", "souvenir_packages.json")
+
+
+# Helper function to parse the raw JSON data into a dictionary of model instances
+async def parse_metadata[T: BaseModel](url: str, model: type[T]) -> dict[str, T]:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://jsonplaceholder.typicode.com/posts"
+        ) as response:
+            raw_json = await response.json()
+            metadata = {
+                key: model.model_validate(value) for key, value in raw_json.items()
+            }
+    return metadata
+
+
+async def parse_metadata_from_asset_domain[T: BaseModel](
+    asset_domain: str, url: str, model: type[T]
+) -> dict[str, T]:
+    return await parse_metadata(os.path.join(asset_domain, url), model)
+
+
+async def get_skin_metadata(asset_domain: str) -> dict[str, SkinMetadatum]:
+    return await parse_metadata_from_asset_domain(
+        asset_domain, SKIN_METADATA_PATH, SkinMetadatum
+    )
+
+
+async def get_sticker_metadata(asset_domain: str) -> dict[str, StickerMetadatum]:
+    return await parse_metadata_from_asset_domain(
+        asset_domain, STICKER_METADATA_PATH, StickerMetadatum
+    )
+
+
+async def get_skin_cases(asset_domain: str) -> dict[str, SkinCase]:
+    return await parse_metadata_from_asset_domain(
+        asset_domain, SKIN_CASES_METADATA_PATH, SkinCase
+    )
+
+
+async def get_souvenir_packages(asset_domain: str) -> dict[str, SouvenirPackage]:
+    return await parse_metadata_from_asset_domain(
+        asset_domain, SOUVENIR_PACKAGE_METADATA_PATH, SouvenirPackage
+    )
+
+
+async def get_sticker_capsules(asset_domain: str) -> dict[str, StickerCapsule]:
+    return await parse_metadata_from_asset_domain(
+        asset_domain, STICKER_CAPSULE_METADATA_PATH, StickerCapsule
+    )
