@@ -1,5 +1,6 @@
 import re
 import os
+import logging
 import aiohttp
 import string
 import discord
@@ -8,6 +9,26 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 from typing import Optional
 from enum import IntEnum
+
+
+def get_logger(name: str) -> logging.Logger:
+    # Create logger
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+
+    # Console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+
+    return logger
+
+
+_logger = get_logger(__name__)
 
 
 class Rarity(IntEnum):
@@ -167,14 +188,14 @@ SOUVENIR_PACKAGE_METADATA_PATH = os.path.join("generated", "souvenir_packages.js
 
 # Helper function to parse the raw JSON data into a dictionary of model instances
 async def parse_metadata[T: BaseModel](url: str, model: type[T]) -> dict[str, T]:
+    _logger.info(f"Refreshing metadata from {url}...")
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-            "https://jsonplaceholder.typicode.com/posts"
-        ) as response:
+        async with session.get(url) as response:
             raw_json = await response.json()
             metadata = {
                 key: model.model_validate(value) for key, value in raw_json.items()
             }
+    _logger.info(f"Metadata refreshed from {url}")
     return metadata
 
 
