@@ -6,7 +6,7 @@ import string
 import discord
 from enum import Enum
 from dataclasses import dataclass
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel
 from typing import Optional
 from enum import IntEnum
 
@@ -233,11 +233,3 @@ async def get_sticker_capsules(asset_domain: str) -> dict[str, StickerCapsule]:
     return await parse_metadata_from_asset_domain(
         asset_domain, STICKER_CAPSULE_METADATA_PATH, StickerCapsule
     )
-
-
-class LeaderboardEntry(BaseModel):
-    inventory_value: int
-    username: str
-
-
-Leaderboard = RootModel[dict[int, LeaderboardEntry]]

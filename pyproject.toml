@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spacecases-common"
-version = "0.14.1"
+version = "0.14.2"
 requires-python = ">= 3.12"
 description = "Common code shared across SpaceCases projects"
 readme = "README.md"
