@@ -4,6 +4,7 @@ import logging
 import aiohttp
 import string
 import discord
+import random
 from enum import Enum
 from dataclasses import dataclass
 from pydantic import BaseModel
@@ -69,8 +70,38 @@ class Rarity(IntEnum):
         ][self.value]
 
 
+class Condition(IntEnum):
+    BattleScarred = 0
+    WellWorn = 1
+    FieldTested = 2
+    MinimalWear = 3
+    FactoryNew = 4
+
+    def __str__(self) -> str:
+        return [
+            "Battle-Scarred",
+            "Well-Worn",
+            "Field-Tested",
+            "Minimal Wear",
+            "Factory New",
+        ][self.value]
+
+    def get_min_float(self) -> float:
+        return [0.45, 0.38, 0.15, 0.07, 0.0][self.value]
+
+    def get_max_float(self) -> float:
+        return [1.0, 0.45, 0.38, 0.15, 0.07][self.value]
+
+    def get_float(self, min_float: float, max_float: float) -> float:
+        _min = max(self.get_min_float(), min_float)
+        _max = min(self.get_max_float(), max_float)
+        diff = _max - _min
+        return _min + random.random() * diff
+
+
 class SkinMetadatum(BaseModel):
     formatted_name: str
+    condition: Condition
     rarity: Rarity
     price: int
     image_url: str
