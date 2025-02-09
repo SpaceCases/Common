@@ -71,19 +71,19 @@ class Rarity(IntEnum):
 
 
 class Condition(IntEnum):
-    BattleScarred = 0
-    WellWorn = 1
+    FactoryNew = 0
+    MinimalWear = 1
     FieldTested = 2
-    MinimalWear = 3
-    FactoryNew = 4
+    WellWorn = 3
+    BattleScarred = 4
 
     def __str__(self) -> str:
         return [
-            "Battle-Scarred",
-            "Well-Worn",
-            "Field-Tested",
-            "Minimal Wear",
             "Factory New",
+            "Minimal Wear",
+            "Field-Tested",
+            "Well-Worn",
+            "Battle-Scarred",
         ][self.value]
 
     def get_min_float(self) -> float:
